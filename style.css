@@ -3,6 +3,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  background-color: #222;
 }
 
 main {
@@ -11,48 +12,65 @@ main {
   place-items: center;
 }
 .container {
-  width: 90%;
-  height: 50%;
   margin: 0 auto;
 }
 
 /* header */
-.title {
-  color: #222;
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-/* game */
-.game {
-  width: 100%;
-  height: 100%;
+header {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3px;
+  gap: 10px;
+  margin-bottom: 1rem;
 }
-.square {
-  background: hsl(0, 0%, 92%);
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-  transform: all 0.3s linear;
-  border: 1px solid #fff;
-}
-.square:hover {
-  border-color: red;
+.title {
+  color: #fdfdfd;
+  text-align: center;
 }
 
-/* reset */
+.moves,
+.end {
+  text-align: center;
+  color: #fdfdfd;
+}
+.end {
+  display: none;
+}
+
 .reset {
   display: block;
   width: fit-content;
   margin: 0 auto;
-  background-color: #222;
-  color: #fff;
-  padding: 1rem 30px;
-  margin-top: 3rem;
-  border-radius: 10px;
+  background-color: #fdfdfd;
+  border: 1px solid #fdfdfd;
+  color: #222;
+  padding: 10px;
+  border-radius: 3px;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.3s linear;
+}
+.reset:active {
+  background-color: transparent;
+  background-color: #222;
+  color: #fdfdfd;
+}
+
+/* game */
+.game {
+  padding: 1rem;
+  width: 400px;
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  background-color: #fdfdfd;
+  border-radius: 6px;
+}
+.card {
+  width: 100%;
+  height: 100%;
+  background: #222;
+  cursor: pointer;
+}
+.card:active {
+  transform: scale(0.9);
 }

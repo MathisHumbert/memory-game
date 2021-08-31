@@ -1,72 +1,75 @@
-const squares = document.querySelectorAll('.square');
+const cards = document.querySelectorAll('.card');
 const reset = document.querySelector('.reset');
-const colors = [
-  'red',
-  'red',
-  'blue',
-  'blue',
-  'green',
-  'green',
-  'yellow',
-  'yellow',
-  'pink',
-  'pink',
-  'orange',
-  'orange',
-  'purple',
-  'purple',
-  'brown',
-  'brown',
-];
-let gameFlag = true;
-let lastElement = '';
+const moveDOM = document.querySelector('.moves');
+const endDOM = document.querySelector('.end');
 
-reset.addEventListener('click', resetAllColors);
-squares.forEach((square) => {
-  // adding random color to each sqaure
-  const randomNumber = Math.floor(Math.random() * colors.length);
-  const color = colors[randomNumber];
-  colors.splice(colors.indexOf(color), 1);
-  square.setAttribute('data-color', color);
-  // event listener
-  square.addEventListener('click', memoryGame);
+let firstCard, secondCard;
+let flagCard = false;
+let flagBlock = false;
+let move = 0;
+let end = 0;
+
+cards.forEach((card) => {
+  card.addEventListener('click', memoryGame);
 });
 
 function memoryGame() {
-  console.log(gameFlag);
-  if (this.classList.contains('done')) return;
-  if (gameFlag) {
-    showColor(this);
-    gameFlag = !gameFlag;
-    lastElement = this.dataset.color;
+  if (this === firstCard) return;
+  if (flagBlock) return;
+  const color = this.dataset.color;
+  move++;
+  if (!flagCard) {
+    this.style.backgroundColor = `${color}`;
+    firstCard = this;
+    flagCard = !flagCard;
   } else {
-    if (lastElement === this.dataset.color) {
-      showColor(this);
-      gameFlag = !gameFlag;
-      lastElement = this.dataset.color;
+    this.style.backgroundColor = `${color}`;
+    secondCard = this;
+    flagBlock = !flagBlock;
+    if (firstCard.dataset.color === secondCard.dataset.color) {
+      firstCard.removeEventListener('click', memoryGame);
+      secondCard.removeEventListener('click', memoryGame);
+      resetAll();
+      end++;
+      if (end === 8) {
+        endDOM.style.display = 'block';
+      }
     } else {
-      showColor(this);
-      let target = this;
-      let reset = window.setTimeout(function () {
-        target.style.background = 'hsl(0, 0%, 92%)';
-        target.classList.remove('done');
+      setTimeout(() => {
+        firstCard.style.backgroundColor = '#222';
+        secondCard.style.backgroundColor = '#222';
+        resetAll();
       }, 1000);
     }
   }
+  moveDOM.innerHTML = `Number of moves: ${move}`;
 }
 
-function showColor(target) {
-  console.log(target);
-  const color = target.dataset.color;
-  target.style.background = `${color}`;
-  target.classList.add('done');
+function resetAll() {
+  [flagBlock, flagCard] = [false, false][(firstCard, secondCard)] = [
+    null,
+    null,
+  ];
 }
 
-function resetAllColors() {
-  squares.forEach((square) => {
-    square.style.background = 'hsl(0, 0%, 92%)';
-    square.classList.remove('done');
-    square.style.hover;
-    gameFlag = true;
+reset.addEventListener('click', () => {
+  cards.forEach((card) => {
+    card.style.backgroundColor = '#222';
+    card.addEventListener('click', memoryGame);
+    resetAll();
+    move = 0;
+    end = 0;
+    moveDOM.innerHTML = `Number of moves: ${move}`;
+    endDOM.style.display = 'none';
+    shuflle();
+  });
+});
+
+function shuflle() {
+  cards.forEach((card) => {
+    let random = Math.floor(Math.random() * 16);
+    card.style.order = random;
   });
 }
+
+shuflle();
