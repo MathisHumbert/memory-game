@@ -1,4 +1,5 @@
 const squares = document.querySelectorAll('.square');
+const reset = document.querySelector('.reset');
 const colors = [
   'red',
   'red',
@@ -20,6 +21,7 @@ const colors = [
 let gameFlag = true;
 let lastElement = '';
 
+reset.addEventListener('click', resetAllColors);
 squares.forEach((square) => {
   // adding random color to each sqaure
   const randomNumber = Math.floor(Math.random() * colors.length);
@@ -30,24 +32,27 @@ squares.forEach((square) => {
   square.addEventListener('click', memoryGame);
 });
 
-function memoryGame(e) {
+function memoryGame() {
   console.log(gameFlag);
   if (this.classList.contains('done')) return;
   if (gameFlag) {
-    showColor(e.target);
+    showColor(this);
     gameFlag = !gameFlag;
     lastElement = this.dataset.color;
   } else {
-    showColor(this);
-    let target = this;
-    let reset = window.setTimeout(function () {
-      target.style.background = 'hsl(0, 0%, 92%)';
-      target.classList.remove('done');
-    }, 1000);
-    console.log(lastElement);
+    if (lastElement === this.dataset.color) {
+      showColor(this);
+      gameFlag = !gameFlag;
+      lastElement = this.dataset.color;
+    } else {
+      showColor(this);
+      let target = this;
+      let reset = window.setTimeout(function () {
+        target.style.background = 'hsl(0, 0%, 92%)';
+        target.classList.remove('done');
+      }, 1000);
+    }
   }
-
-  console.log(this);
 }
 
 function showColor(target) {
@@ -61,9 +66,7 @@ function resetAllColors() {
   squares.forEach((square) => {
     square.style.background = 'hsl(0, 0%, 92%)';
     square.classList.remove('done');
+    square.style.hover;
+    gameFlag = true;
   });
 }
-
-const heading = document.querySelector('.title');
-heading.style.color = 'red';
-console.log(heading);

@@ -18,7 +18,9 @@ main {
 
 /* header */
 .title {
-  color: blue;
+  color: #222;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 /* game */
@@ -27,13 +29,30 @@ main {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  gap: 3px;
 }
 .square {
   background: hsl(0, 0%, 92%);
+  height: 100%;
+  width: 100%;
   cursor: pointer;
   transform: all 0.3s linear;
+  border: 1px solid #fff;
 }
 .square:hover {
-  background: hsl(0, 0%, 82%);
+  border-color: red;
+}
+
+/* reset */
+.reset {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  background-color: #222;
+  color: #fff;
+  padding: 1rem 30px;
+  margin-top: 3rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
